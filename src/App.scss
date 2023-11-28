@@ -1,0 +1,141 @@
+.App {
+    width: 100vw;
+}
+body {
+    overflow-x: hidden;
+}
+* {
+    transition: all 0.3s;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+.flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+//
+.m1 {
+    margin: 1px;
+}
+.m2 {
+    margin: 2px;
+}
+.m3 {
+    margin: 3px;
+}
+.m5 {
+    margin: 5px;
+}
+.m7 {
+    margin: 7px;
+}
+.m10 {
+    margin: 10px;
+}
+.m15 {
+    margin: 15px;
+}
+.m20 {
+    margin: 20px;
+}
+
+.p1 {
+    padding: 1px;
+}
+.p2 {
+    padding: 2px;
+}
+.p3 {
+    padding: 3px;
+}
+.p5 {
+    padding: 5px;
+}
+.p7 {
+    padding: 7px;
+}
+.p10 {
+    padding: 10px;
+}
+.p15 {
+    padding: 15px;
+}
+.p20 {
+    padding: 20px;
+}
+
+.fSmall {
+    font-size: 10px;
+}
+.fNormal {
+    font-size: 15px;
+}
+.fBig {
+    font-size: 20px;
+}
+.fUltra {
+    font-style: 30px;
+}
+
+.radiusS {
+    border-radius: 10px;
+}
+.radiusM {
+    border-radius: 15px;
+}
+.radiusL {
+    border-radius: 20px;
+}
+
+.borderBox {
+    box-sizing: border-box;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.btn {
+    min-width: 100px;
+    max-width: fit-content;
+    cursor: pointer;
+    background-color: rgb(255, 103, 95);
+    border: rgb(171, 36, 29) solid 3px;
+    transform: scale(1);
+    color: white;
+    &:hover {
+        background-color: rgb(255, 177, 68);
+        border: rgb(171, 112, 29) solid 3px;
+        transform: scale(1.05);
+    }
+}
+.category{
+    background-color: wheat;
+    .category-text{
+        color: darkblue;
+        height: 100px;
+
+    }
+    .categoryItem{
+        height: 50px;
+        width: 200px;
+        cursor:  pointer;
+    }
+    hr{
+        border: 1px solid black;
+        width: 80%;
+    }
+}

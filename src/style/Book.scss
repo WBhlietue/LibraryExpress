@@ -1,0 +1,57 @@
+.bookView {
+    width: 275px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    .name {
+        text-decoration: none;
+    }
+    .img {
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transform: scale(1);
+        }
+    }
+    &:hover {
+        img {
+            transform: scale(1.1);
+        }
+    }
+}
+.bookList {
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.book {
+    width: 100%;
+    .bookData {
+        width: 100%;
+        .img{
+            flex: 1;
+            margin-right: 10px;
+        }
+        img {
+            width: 400px;
+            height: 500px;
+            object-fit: contain;
+            float: right;
+        }
+        .bookDataView{
+            margin-left: 10px;
+            flex: 1;
+        }
+    }
+}
+.bookPdf{
+    width: 80vw;
+    left: 10%;
+    position: relative;
+    height: 80vh;
+    margin-bottom: 10vh;
+}
