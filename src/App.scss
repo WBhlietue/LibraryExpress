@@ -124,6 +124,7 @@ body {
 }
 .category{
     background-color: wheat;
+    min-height: calc(100vh - 75px);
     .category-text{
         color: darkblue;
         height: 100px;
@@ -133,9 +134,17 @@ body {
         height: 50px;
         width: 200px;
         cursor:  pointer;
+        &:hover{
+            font-size: 25px;
+        }
     }
     hr{
         border: 1px solid black;
         width: 80%;
     }
+}
+
+
+.fullFlex{
+    flex: 1;
 }

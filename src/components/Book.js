@@ -20,6 +20,7 @@ function ShowBook({ data, setView, setPdf }) {
                 <div className="bookDataView">
                     <br />
                     <div className="bold fBig">{data.name}</div>
+                    <div className="fNormal">{data.category}</div>
                     <div className="fSmall">{data.author}</div>
                     <div className="fNormal">{data.description}</div>
                     <Button

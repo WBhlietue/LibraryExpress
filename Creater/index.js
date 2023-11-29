@@ -7,7 +7,7 @@ const Model4 = require("./model4");
 const mongoose = require("mongoose");
 let num = 0;
 require("dotenv").config();
-const mongoString = process.env.DATABASE_URL;
+const mongoString = "mongodb://localhost";
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 database.on("error", (error) => {
@@ -46,13 +46,14 @@ database.once("connected", async () => {
             }
             const data = new Model({
                 _id: o + 1,
-                name: i,
+                name: name,
                 image: image,
                 category: "none",
                 language: "English",
                 author: "Not me",
                 pdf: pdfS[0],
             });
+            
 
             const data2 = new Model2({
                 _id: o + 1,

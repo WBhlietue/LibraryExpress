@@ -13,7 +13,7 @@ const path = require('path');
 const PORT = 8000;
 
 require("dotenv").config();
-const mongoString = process.env.DATABASE_URL;
+const mongoString = "mongodb://localhost";
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 database.on("error", (error) => {

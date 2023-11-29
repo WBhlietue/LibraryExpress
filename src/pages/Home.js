@@ -3,11 +3,11 @@ import { GetAllBookData } from "../Back";
 import { BookLibrary } from "../components/BookLibrary";
 import { Loader } from "../components/Loader";
 
-function CategoryClick({ name, num }) {
+function CategoryClick({ name, num, click }) {
     return (
         <div>
             <hr />
-            <div className="categoryItem flexCenter fBig">{`${name} (${num})`}</div>
+            <div onClick={()=>{click(name)}} className="categoryItem flexCenter fBig">{`${name} (${num})`}</div>
         </div>
     );
 }
@@ -18,10 +18,11 @@ export function Home() {
     const [currentData, setCurrentData] = useState([]);
     const [category, setCategory] = useState([]);
     const [categoryNum, setCategoryNum] = useState([]);
+    const [filter, setFilter] = useState("All")
     useEffect(() => {
         GetAllBookData().then((res) => {
-            let cateList = [];
-            let cateNumList = [];
+            let cateList = ["All"];
+            let cateNumList = [0];
             res.map((i) => {
                 let cate = i.category;
                 let num = cateList.indexOf(cate);
@@ -31,6 +32,7 @@ export function Home() {
                 } else {
                     cateNumList[num]++;
                 }
+                cateNumList[0]++;
             });
             setCategory(cateList);
             setCategoryNum(cateNumList);
@@ -39,6 +41,9 @@ export function Home() {
             setCurrentData(res);
         });
     }, []);
+    function Click(name){
+        setFilter(name)
+    }
     return (
         <div>
             {pageState == 0 ? (
@@ -56,13 +61,14 @@ export function Home() {
                                     key={i}
                                     name={category[i]}
                                     num={categoryNum[i]}
+                                    click={Click}
                                 ></CategoryClick>
                             );
                         })}
                         <hr></hr>
                     </div>
-                    <div>
-                        <BookLibrary data={currentData} />
+                    <div className="fullFlex">
+                        <BookLibrary filter={filter} data={currentData} />
                     </div>
                 </div>
             )}
