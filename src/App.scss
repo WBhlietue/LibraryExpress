@@ -134,8 +134,9 @@ body {
         height: 50px;
         width: 200px;
         cursor:  pointer;
+        color: black;
         &:hover{
-            font-size: 25px;
+            color: white;
         }
     }
     hr{

@@ -1,8 +1,85 @@
-.header{
+.header {
     height: 75px;
     background-color: darkblue;
     color: white;
-    .header-Link{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .header-Link {
         color: white;
+        text-decoration: none;
+        margin: 10px;
+        font-size: 20px;
+    }
+    .user {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .header-Link-btn {
+        margin: 10px;
+        width: 100px;
+        height: 30px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        background-color: blue;
+        border-radius: 10px;
+    }
+}
+
+.login-btn {
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: blue;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.mForm {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #ababab;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 12px;
+        border: 1px solid rgb(157, 157, 157);
+        border-radius: 4px;
+        font-size: 14px;
+        border: none;
+        padding: 0;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    br {
+        display: none; 
+    }
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 }
