@@ -43,7 +43,7 @@ export function Upload() {
                 <br />
                 <label>image</label>
                 <br />
-                <input id="image" type={"file"} />
+                <input id="image" type={"file"} accept={"image/*"} />
                 <br />
                 <label>category</label>
                 <br />
@@ -59,7 +59,7 @@ export function Upload() {
                 <br />
                 <label>pdf</label>
                 <br />
-                <input id="pdf" type={"file"} />
+                <input id="pdf" type={"file"} accept="application/pdf"/>
                 <br />
             <div
                 className="btn"
@@ -81,6 +81,7 @@ export function Upload() {
                     }).then((res) =>{
                         res.json().then((data) => {
                             console.log(data);
+                            window.location.href="./"
                         })
                     });
                 }}
