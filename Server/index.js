@@ -43,6 +43,10 @@ app.get("/api/book/:id", async (req, res) => {
     const cD = await ConvertData(data);
     res.json({ book: cD, status: "200" });
 });
+app.get("/api/deleteAllUser", async (req, res) => {
+    const a = await UserModel.deleteMany();
+    res.send(a);
+});
 
 app.post("/login", async (req, res) => {
     const data = req.body;
@@ -51,7 +55,7 @@ app.post("/login", async (req, res) => {
         res.json({ status: 0 });
     } else {
         if (usr.pass === data.pass) {
-            res.json({ status: 2, name: usr.name });
+            res.json({ status: 2, name: usr.name, email: data.email });
         } else {
             res.json({ status: 1, name: "none" });
         }
@@ -68,10 +72,33 @@ app.post("/register", async (req, res) => {
             _id: data.email,
             name: data.name,
             pass: data.pass,
+            history: [],
         });
         await d.save();
-        res.json({ status: 1, name: data.name });
+        res.json({ status: 1, name: data.name, email: data.email });
     }
+});
+
+app.post("/uploadHistory", async (req, res) => {
+    console.log(req.body);
+    const history = (await UserModel.findById(req.body.email)).history;
+    console.log(history);
+    if (history.indexOf(req.body.id) != -1) {
+        history.splice(history.indexOf(req.body.id), 1);
+    }
+    history.push(req.body.id);
+
+    await UserModel.findByIdAndUpdate(req.body.email, { history: history });
+    res.send("hi");
+});
+
+app.get("/getHistory/:email", async (req, res) => {
+    const history = (await UserModel.findById(req.params.email)).history;
+    const data = []
+    for(let i of history){
+        data.push(await ConvertData(await Model.findById(i)));
+    }
+    res.json(data);
 });
 
 app.post("/upload", async (req, res) => {

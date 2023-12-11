@@ -28,6 +28,7 @@ export function Login() {
                                 alert("pass error");
                             } else {
                                 localStorage.setItem("user", data.name);
+                                localStorage.setItem("email", data.email);
                                 window.location.href = "./";
                             }
                         });
@@ -76,6 +77,7 @@ export function Register() {
                                 alert("already have");
                             } else {
                                 localStorage.setItem("user", data.name);
+                                localStorage.setItem("email", data.email)
                                 window.location.href = "./";
                             }
                         });

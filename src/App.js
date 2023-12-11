@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { Book } from "./components/Book";
+import { History } from "./pages/History";
 import {Home} from "./pages/Home";
 import {Layout} from "./pages/Layout";
 import { Login, Register } from "./pages/Login";
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/upload" element={<Upload />} />
+                    <Route path="/history" element={<History />} />
                 </Route>
             </Routes>
         </BrowserRouter>

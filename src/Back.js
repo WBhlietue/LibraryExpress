@@ -12,3 +12,9 @@ export async function GetBookDataWithId(id) {
     }
     return null;
 }
+
+export async function GetHistoryBookData(){
+    let res = await fetch("http://localhost:8000/getHistory/"+localStorage.getItem("email"));
+    let data = await res.json();
+    return data;
+}
