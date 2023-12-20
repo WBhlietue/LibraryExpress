@@ -55,6 +55,7 @@ app.post("/login", async (req, res) => {
         res.json({ status: 0 });
     } else {
         if (usr.pass === data.pass) {
+            // login successful
             res.json({ status: 2, name: usr.name, email: data.email });
         } else {
             res.json({ status: 1, name: "none" });
