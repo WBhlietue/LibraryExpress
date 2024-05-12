@@ -8,13 +8,16 @@ const Model2 = require("./model2");
 const Model3 = require("./model3");
 const Model4 = require("./model4");
 const UserModel = require("./User");
+const Category = require("./category");
+const Accept = require("./accept");
+const Deny = require("./deny");
 const fs = require("fs");
 const path = require("path");
 
 const PORT = 8000;
 
 require("dotenv").config();
-const mongoString = "mongodb://localhost";
+const mongoString = "mongodb://127.0.0.1:27017";
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 database.on("error", (error) => {
@@ -32,14 +35,22 @@ app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
 app.get("/api/book", async (req, res) => {
     const data = await Model.find();
+    const result = [];
     for (let i = 0; i < data.length; i++) {
-        data[i] = await ConvertData(data[i]);
+        const d = await Accept.findById(data[i]._id);
+        if (d) {
+            result.push(await ConvertData(data[i]));
+        }
     }
-    res.json(data);
+    res.json(result);
 });
 app.get("/api/book/:id", async (req, res) => {
     const id = req.params.id;
     const data = await Model.findById(req.params.id);
+    if (!data) {
+        res.json({ status: 404, message: "Not found" });
+        return;
+    }
     const cD = await ConvertData(data);
     res.json({ book: cD, status: "200" });
 });
@@ -50,6 +61,10 @@ app.get("/api/deleteAllUser", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const data = req.body;
+    if (data.email == "admin" && data.pass == "admin") {
+        res.json({ status: 3, name: "admin", email: "admin" });
+        return;
+    }
     const usr = await UserModel.findById(data.email);
     if (!usr) {
         res.json({ status: 0 });
@@ -92,14 +107,79 @@ app.post("/uploadHistory", async (req, res) => {
     await UserModel.findByIdAndUpdate(req.body.email, { history: history });
     res.send("hi");
 });
+app.get("/getUserView", async (req, res) => {
+    const user = await UserModel.find();
+    const result = [];
+    for (let i of user) {
+        result.push([i._id, i.name, i.history.length]);
+    }
+    result.sort((a, b) => b[2] - a[2]);
+    res.json(result);
+});
+app.get("/getBookView", async (req, res) => {
+    const data = await Model.find();
+    const result = [];
+    for (let i of data) {
+        result.push([i._id, i.name, 0]);
+    }
+    const user = await UserModel.find();
+    for (let i of user) {
+        for (let j of i.history) {
+            result[j - 1][2]++;
+        }
+    }
+    result.sort((a, b) => b[2] - a[2]);
+    res.json(result);
+});
+app.get("/request", async (req, res) => {
+    const data = await Model.find();
+    const result = [];
+    for (let i of data) {
+        if (!(await Accept.findById(i._id)) && ! await Deny.findById(i._id)) {
+            result.push([i._id, i.name]);
+        }
+    }
+    return res.json(result);
+});
+app.get("/accept/:idd", async (req, res) => {
+    console.log(req.params);
+    const a = new Accept({_id: req.params.idd})
+    await a.save()
 
+    res.json({status: 1})
+});
+app.get("/deny/:id", async (req, res) => {
+    const a = new Deny({_id: req.params.id})
+    await a.save()
+
+    res.json({status: 1})
+});
 app.get("/getHistory/:email", async (req, res) => {
     const history = (await UserModel.findById(req.params.email)).history;
-    const data = []
-    for(let i of history){
+    const data = [];
+    for (let i of history) {
         data.push(await ConvertData(await Model.findById(i)));
     }
     res.json(data);
+});
+app.get("/category", async (req, res) => {
+    res.json(await Category.find());
+});
+app.post("/category", async (req, res) => {
+    const data = req.body;
+    const c = new Category({
+        _id: data.name,
+    });
+    await c.save();
+    res.json({ status: 1 });
+});
+app.get("/category/:name", async (req, res) => {
+    const d = await Category.findById(req.params.name);
+    await Category.findByIdAndDelete(d);
+    res.json({ status: 1 });
+});
+app.get("/users", async (req, res) => {
+    res.json(await UserModel.find());
 });
 
 app.post("/upload", async (req, res) => {
@@ -136,12 +216,22 @@ app.post("/upload", async (req, res) => {
 });
 
 app.listen(PORT, () => {
+    UserModel.findById("admin").then((data) => {
+        if (!data) {
+            const user = new UserModel({
+                _id: "admin",
+                name: "admin",
+                pass: "admin",
+                history: [],
+            });
+            user.save();
+        }
+    });
     console.log("open");
 });
 
 async function ConvertData(data) {
     let a = "";
-
     a += data.pdf;
     const dta = await Model2.findById(data._id);
     a += dta.pdf;
