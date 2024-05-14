@@ -23,23 +23,35 @@ function ShowBook({ data, setView, setPdf, id }) {
                     <div className="fNormal">{data.category}</div>
                     <div className="fSmall">{data.author}</div>
                     <div className="fNormal">{data.description}</div>
-                    <Button
-                        text={"View Online"}
-                        onClick={() => {
-                            fetch("http://127.0.0.1:8000/uploadHistory", {
-                                method: "POST",
-                                headers: { "Content-type": "application/json" },
-                                body: JSON.stringify({
-                                    email: localStorage.getItem("email"),
-                                    id: id,
-                                }),
-                            }).then((res) => {
-                                console.log(res);
-                            });
-                            setView(true);
-                            setPdf(data.pdf);
-                        }}
-                    />
+                    {localStorage.getItem("user").length === 0 ? (
+                        <Button
+                            text={"You need to Login"}
+                            onClick={() => {
+                                window.location.href = "/login";
+                            }}
+                        />
+                    ) : (
+                        <Button
+                            text={"View Online"}
+                            onClick={() => {
+                                fetch("http://127.0.0.1:8000/uploadHistory", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        email: localStorage.getItem("email"),
+                                        id: id,
+                                    }),
+                                }).then((res) => {
+                                    console.log(res);
+                                });
+                                setView(true);
+                                setPdf(data.pdf);
+                            }}
+                        />
+                    )}
+                    
                 </div>
             </div>
         </div>
@@ -47,7 +59,13 @@ function ShowBook({ data, setView, setPdf, id }) {
 }
 
 function ViewPDF({ url }) {
-    return <iframe className="bookPdf" src={url + "#toolbar=0"} frameborder="0"></iframe>;
+    return (
+        <iframe
+            className="bookPdf"
+            src={url + "#toolbar=0"}
+            frameborder="0"
+        ></iframe>
+    );
 }
 
 export function Book() {

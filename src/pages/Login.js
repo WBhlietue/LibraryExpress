@@ -8,6 +8,7 @@ export function Login() {
                 <input id="email" type="email" />
                 <label>PassWord</label>
                 <input id="pass" type="password" />
+
             <div
                 className="login-btn"
                 onClick={() => {
@@ -15,6 +16,7 @@ export function Login() {
                         email: document.getElementById("email").value,
                         pass: document.getElementById("pass").value,
                     };
+                    console.log(data);
                     fetch("http://127.0.0.1:8000/login", {
                         method: "POST",
                         headers: { "Content-type": "application/json" },
@@ -29,6 +31,11 @@ export function Login() {
                             } else {
                                 localStorage.setItem("user", data.name);
                                 localStorage.setItem("email", data.email);
+                                if(data.status == 3){
+                                    localStorage.setItem("admin", 1);
+                                }else{
+                                    localStorage.setItem("admin", 0);
+                                }
                                 window.location.href = "./";
                             }
                         });

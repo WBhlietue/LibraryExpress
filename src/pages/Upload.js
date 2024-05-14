@@ -4,6 +4,7 @@ import "../style/Upload.scss";
 export function Upload() {
     const [img, setImg] = useState("");
     const [pdf, setPdf] = useState("");
+    const [category, setCategory] = useState([]);
     useEffect(() => {
         document
             .getElementById("image")
@@ -33,6 +34,15 @@ export function Upload() {
                     reader.readAsDataURL(files);
                 }
             });
+        fetch("http://localhost:8000/category").then((res) => {
+            res.json().then((d) => {
+                const cat = [];
+                for (let i of d) {
+                    cat.push([i._id]);
+                }
+                setCategory(cat)
+            });
+        });
     }, []);
     return (
         <div>
@@ -47,7 +57,18 @@ export function Upload() {
                 <br />
                 <label>category</label>
                 <br />
-                <input id="category" />
+                <select id="category">
+                    {
+                        category.map((c) => {
+                            return (
+                                <option key={c[0]} value={c[0]}>
+                                    {c[0]}
+                                </option>
+
+                            );
+                        })
+                    }
+                </select>
                 <br />
                 <label>language</label>
                 <br />
@@ -59,35 +80,35 @@ export function Upload() {
                 <br />
                 <label>pdf</label>
                 <br />
-                <input id="pdf" type={"file"} accept="application/pdf"/>
+                <input id="pdf" type={"file"} accept="application/pdf" />
                 <br />
-            <div
-                className="btn"
-                onClick={() => {
-                    const data = {
-                        name: document.getElementById("name").value,
-                        image: img,
-                        category: document.getElementById("category").value,
-                        language: document.getElementById("language").value,
-                        author: document.getElementById("author").value,
-                        pdf: pdf,
-                    };
-                    fetch("http://127.0.0.1:8000/upload", {
-                        method: "POST",
-                        headers: {
-                            "Content-type": "application/json",
-                        },
-                        body: JSON.stringify(data),
-                    }).then((res) =>{
-                        res.json().then((data) => {
-                            console.log(data);
-                            window.location.href="./"
-                        })
-                    });
-                }}
-            >
-                Upload
-            </div>
+                <div
+                    className="btn"
+                    onClick={() => {
+                        const data = {
+                            name: document.getElementById("name").value,
+                            image: img,
+                            category: document.getElementById("category").value,
+                            language: document.getElementById("language").value,
+                            author: document.getElementById("author").value,
+                            pdf: pdf,
+                        };
+                        fetch("http://127.0.0.1:8000/upload", {
+                            method: "POST",
+                            headers: {
+                                "Content-type": "application/json",
+                            },
+                            body: JSON.stringify(data),
+                        }).then((res) => {
+                            res.json().then((data) => {
+                                console.log(data);
+                                window.location.href = "./";
+                            });
+                        });
+                    }}
+                >
+                    Upload
+                </div>
             </div>
         </div>
     );

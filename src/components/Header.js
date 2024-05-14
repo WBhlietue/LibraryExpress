@@ -12,6 +12,7 @@ export function Header() {
         } else {
             setLogged(false);
         }
+        console.log(localStorage.getItem("admin"));
     }, []);
     return (
         <div className="header">
@@ -30,12 +31,46 @@ export function Header() {
             ) : (
                 <div className="user">
                     {localStorage.getItem("user")}
+                    {localStorage.getItem("admin")==1 ? (
+                        <>
+                            <Link
+                                className="header-Link-btn"
+                                to={"/userView"}
+                                onClick={() => {}}
+                            >
+                                User Views
+                            </Link>
+                            <Link
+                                className="header-Link-btn"
+                                to={"/bookView"}
+                                onClick={() => {}}
+                            >
+                                Book Views
+                            </Link>
+                            <Link
+                                className="header-Link-btn"
+                                to={"/category"}
+                                onClick={() => {}}
+                            >
+                                Manage Category
+                            </Link>
+                            <Link
+                                className="header-Link-btn"
+                                to={"/request"}
+                                onClick={() => {}}
+                            >
+                                Upload Request
+                            </Link>
+                        </>
+                    ) : (
+                        <></>
+                    )}
                     <Link
                         className="header-Link-btn"
                         to={"/history"}
                         onClick={() => {}}
                     >
-                        History
+                        My History
                     </Link>
                     <Link
                         className="header-Link-btn"
@@ -49,7 +84,7 @@ export function Header() {
                         onClick={() => {
                             localStorage.setItem("user", "");
                             localStorage.setItem("email", "");
-                            window.location.reload();
+                            window.location.href = "/";
                         }}
                     >
                         LogOut
