@@ -31,6 +31,7 @@ export function Login() {
                             } else {
                                 localStorage.setItem("user", data.name);
                                 localStorage.setItem("email", data.email);
+                                
                                 if(data.status == 3){
                                     localStorage.setItem("admin", 1);
                                 }else{
@@ -85,6 +86,7 @@ export function Register() {
                             } else {
                                 localStorage.setItem("user", data.name);
                                 localStorage.setItem("email", data.email)
+                                localStorage.setItem("admin", 0);
                                 window.location.href = "./";
                             }
                         });
